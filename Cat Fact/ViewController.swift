@@ -121,25 +121,36 @@ class ViewController: UIViewController {
         Task {
             activityIndicator.startAnimating()
             catButton.isEnabled = false
+            defer {
+                activityIndicator.stopAnimating()
+                catButton.isEnabled = true
+            }
 
-            if let cataasURL = URL(string: "https://cataas.com/cat") {
-                let (data, _) = try await URLSession.shared.data(
+            do {
+                guard let cataasURL = URL(string: "https://cataas.com/cat"),
+                    let apiURL = URL(string: "https://catfact.ninja/fact")
+                else { return }
+
+                let (imageData, _) = try await URLSession.shared.data(
                     from: cataasURL
                 )
-                imageView.contentMode = .scaleAspectFill
-                imageView.image = UIImage(data: data)
-            }
-            
-            if let apiURL = URL(string: "https://catfact.ninja/fact") {
-                let (data, _) = try await URLSession.shared.data(from: apiURL)
-                let catFact = try JSONDecoder().decode(CatFact.self, from: data)
-                catFactLabel.text = catFact.fact
-            }
+                let (factData, _) = try await URLSession.shared.data(
+                    from: apiURL
+                )
+                let catFact = try JSONDecoder().decode(
+                    CatFact.self,
+                    from: factData
+                )
 
-            activityIndicator.stopAnimating()
-            catButton.isEnabled = true
+                imageView.contentMode = .scaleAspectFill
+                imageView.image = UIImage(data: imageData)
+                catFactLabel.text = catFact.fact
+            } catch {
+                catFactLabel.text = "Couldn't load a cat fact. Try again."
+            }
         }
     }
+
 }
 
 #Preview {

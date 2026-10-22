@@ -1,0 +1,14 @@
+"Cat Fact/ViewController.swift"
+  h_36695e5767c2ad 124-132,134,137-144,146,148-149,153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "56c9fce1b7cde06a7e10b3ab5bc16ed9a58f1ca2",
+  "prompts": {},
+  "humans": {
+    "h_36695e5767c2ad": {
+      "author": "Nicholas Lim <nic.lim@foodpanda.com>"
+    }
+  }
+}
